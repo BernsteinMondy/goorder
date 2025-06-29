@@ -1,4 +1,4 @@
-package impl
+package repository
 
 import (
 	"context"
@@ -39,14 +39,14 @@ func (o *OrderRepository) CreateOrder(ctx context.Context, order *domain.Order) 
 		}
 	}()
 	if err != nil {
-		return uuid.Nil, fmt.Errorf("being sql tx: %w", err)
+		return fmt.Errorf("being sql tx: %w", err)
 	}
 
 	statusSQL := orderStatusToSQLEnum(order.Status)
 
 	_, err = tx.ExecContext(ctx, orderQuery, uuid.New(), time.Now(), order.ID, order.CreatedAt, order.UserID, statusSQL)
 	if err != nil {
-		return uuid.Nil, fmt.Errorf("run sql query: %w", err)
+		return fmt.Errorf("run sql query: %w", err)
 	}
 
 	if len(order.Items) > 0 {
@@ -77,16 +77,16 @@ func (o *OrderRepository) CreateOrder(ctx context.Context, order *domain.Order) 
 			valueArgs...,
 		)
 		if err != nil {
-			return uuid.Nil, fmt.Errorf("run sql query with batch insert: %w", err)
+			fmt.Errorf("run sql query with batch insert: %w", err)
 		}
 	}
 
 	err = tx.Commit()
 	if err != nil {
-		return uuid.Nil, fmt.Errorf("commit sql tx: %w", err)
+		return fmt.Errorf("commit sql tx: %w", err)
 	}
 
-	return order.ID, nil
+	return nil
 }
 
 func (o *OrderRepository) GetOrderByID(ctx context.Context, orderID uuid.UUID) (*domain.Order, error) {

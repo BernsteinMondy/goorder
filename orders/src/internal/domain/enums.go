@@ -3,7 +3,7 @@ package domain
 type OrderStatus uint8
 
 const (
-	OrderStatusCreated OrderStatus = iota
+	OrderStatusCreated OrderStatus = iota + 1
 	OrderStatusPayed
 	OrderStatusSuccess
 	OrderStatusCancelled
@@ -12,7 +12,7 @@ const (
 type ProductSize uint8
 
 const (
-	ProductSizeSmall = iota
+	ProductSizeSmall = iota + 1
 	ProductSizeMedium
 	ProductSizeLarge
 	ProductSizeExtraLarge

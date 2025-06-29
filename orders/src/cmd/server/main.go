@@ -6,7 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/BernsteinMondy/goorder/orders/src/internal/domain"
-	"github.com/BernsteinMondy/goorder/orders/src/internal/impl"
+	"github.com/BernsteinMondy/goorder/orders/src/internal/repository"
 	"github.com/BernsteinMondy/goorder/orders/src/pkg/database"
 	"log/slog"
 	"os"
@@ -58,8 +58,8 @@ func run() (err error) {
 		slog.Info("Database connection closed")
 	}()
 
-	ordersRepo := impl.NewOrderRepository(db)
-	productsRepo := impl.NewProductRepository(db)
+	ordersRepo := repository.NewOrderRepository(db)
+	productsRepo := repository.NewProductRepository(db)
 
 	service := domain.NewService(
 		ordersRepo,
