@@ -13,7 +13,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
-      matrix: [ "orders" ]
+      matrix:
+        directory: [ "orders" ]
 
     steps:
       - name: Check repository
@@ -33,7 +34,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
-      matrix: [ "orders" ]
+      matrix:
+        directory: [ "orders" ]
 
     steps:
       - name: Check repository
