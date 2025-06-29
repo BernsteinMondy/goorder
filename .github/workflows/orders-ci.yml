@@ -12,6 +12,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix: [ orders ]
+
     steps:
       - name: Check repository
         uses: actions/checkout@v4
@@ -23,10 +26,15 @@ jobs:
           cache: 'true'
 
       - name: Test
-        run: go test -v ./...
+        run: |
+          cd ${{ matrix.directory }}
+          go test ./...
 
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix: [ orders ]
+
     steps:
       - name: Check repository
         uses: actions/checkout@v4
@@ -38,4 +46,6 @@ jobs:
           cache: 'true'
 
       - name: Build
-        run: go build -v ./...
+        run: |
+          cd ${{ matrix.directory }}
+          go build -v ./...
