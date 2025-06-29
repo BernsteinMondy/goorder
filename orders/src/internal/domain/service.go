@@ -35,14 +35,13 @@ type OrderRepository interface {
 	GetOrderByID(ctx context.Context, orderID uuid.UUID) (*Order, error)
 	GetOrdersByUserID(ctx context.Context, userID uuid.UUID) ([]Order, error)
 	// UpdateOrderStatus inserts new Order object state with new OrderStatus.
-	UpdateOrderStatus(ctx context.Context, orderID uuid.UUID, status OrderStatus) error
+	UpdateOrderStatus(ctx context.Context, order *Order) error
 }
 
 type ProductRepository interface {
-	CreateProduct(ctx context.Context, product *Product) (uuid.UUID, error)
+	CreateProduct(ctx context.Context, product *Product) error
 	// GetProductByID must return ErrRepoNotFound if no product was found by the provided ID.
 	GetProductByID(ctx context.Context, productID uuid.UUID) (*Product, error)
-	// DeleteProductByID must return ErrRepoNotFound if no product was found by the provided ID.
 	DeleteProductByID(ctx context.Context, productID uuid.UUID) error
 }
 
