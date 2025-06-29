@@ -20,6 +20,11 @@ jobs:
       - name: Check repository
         uses: actions/checkout@v4
 
+      - name: Install Go dependencies
+        run: |
+          cd ${{ matrix.directory }}
+          go mod tidy
+
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
@@ -46,6 +51,11 @@ jobs:
         with:
           go-version: '1.24'
           cache: 'true'
+
+      - name: Install Go dependencies
+        run: |
+          cd ${{ matrix.directory }}
+          go mod tidy
 
       - name: Build
         run: |
