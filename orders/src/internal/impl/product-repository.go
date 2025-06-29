@@ -15,6 +15,12 @@ type ProductRepository struct {
 
 var _ domain.ProductRepository = (*ProductRepository)(nil)
 
+func NewProductRepository(db *sql.DB) *ProductRepository {
+	return &ProductRepository{
+		db: db,
+	}
+}
+
 func (p *ProductRepository) CreateProduct(ctx context.Context, product *domain.Product) error {
 	const query = `INSERT INTO product.products (id,name,price,size) VALUES ($1,$2,$3,$4)`
 
@@ -38,7 +44,7 @@ func (p *ProductRepository) GetProductByID(ctx context.Context, productID uuid.U
 	err := p.db.QueryRowContext(ctx, query, productID).Scan(&ret.ID, &ret.Name, &ret.Price, &psc)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			return nil, domain.ErrNotFound
+			return nil, domain.ErrRepoNotFound
 		}
 		return nil, fmt.Errorf("query row: %w", err)
 	}
