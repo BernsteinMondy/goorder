@@ -30,15 +30,20 @@ func (p *ProductRepository) CreateProduct(ctx context.Context, product *domain.P
 func (p *ProductRepository) GetProductByID(ctx context.Context, productID uuid.UUID) (*domain.Product, error) {
 	const query = `SELECT id,name,price,size FROM product.products WHERE id = $1`
 
-	var ret domain.Product
+	var (
+		ret domain.Product
+		psc ProductSizeScanner
+	)
 
-	err := p.db.QueryRowContext(ctx, query, productID).Scan(&ret.ID, &ret.Name, &ret.Price, &ret.Size)
+	err := p.db.QueryRowContext(ctx, query, productID).Scan(&ret.ID, &ret.Name, &ret.Price, &psc)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, domain.ErrNotFound
 		}
 		return nil, fmt.Errorf("query row: %w", err)
 	}
+
+	ret.Size = psc.Size
 
 	return &ret, nil
 }
