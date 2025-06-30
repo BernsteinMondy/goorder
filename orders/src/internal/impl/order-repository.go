@@ -23,7 +23,7 @@ func NewOrderRepository(db *sql.DB) *OrderRepository {
 	}
 }
 
-func (o *OrderRepository) CreateOrder(ctx context.Context, order *domain.Order) (_ uuid.UUID, err error) {
+func (o *OrderRepository) CreateOrder(ctx context.Context, order *domain.Order) (err error) {
 	const (
 		orderQuery      = `INSERT INTO order.orders (row_id,row_created_at,id,created_at,user_id,status) VALUES ($1,$2,$3,$4,$5,$6)`
 		orderItemsQuery = `INSERT INTO order.items (id,order_id,product_id,quantity) VALUES %s`
