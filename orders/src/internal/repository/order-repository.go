@@ -77,7 +77,7 @@ func (o *OrderRepository) CreateOrder(ctx context.Context, order *domain.Order) 
 			valueArgs...,
 		)
 		if err != nil {
-			fmt.Errorf("run sql query with batch insert: %w", err)
+			return fmt.Errorf("run sql query with batch insert: %w", err)
 		}
 	}
 
