@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+option go_package = "github.com/BernsteinMondy/goorder/orders/src/pkg/grpc;proto";
+
+import "google/protobuf/empty.proto";
+
+service Orders {
+  rpc CreateOrder(NewOrder) returns(google.protobuf.Empty);
+}
+
+message NewOrder {
+
+}
